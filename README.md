@@ -236,3 +236,126 @@ Cross-session pattern analysis
 📝 License
 
 MIT.
+
+
+## Helper Modules (v1)
+
+### AI Support (v1)
+
+Titan-Core includes a small deterministic support helper to make it easier to debug and adopt the API.
+
+**Endpoint**
+
+`POST /v1/support/ask`
+
+**Request body**
+
+```json
+{
+  "question": "How do I record events?",
+  "endpoint": "/v1/event",
+  "error_message": null,
+  "include_examples": true
+}
+
+
+question (required): free-form question about using Titan-Core.
+
+endpoint (optional): the endpoint you are working with (e.g. /v1/start, /v1/event, /v1/end).
+
+error_message (optional): paste an error string to get a friendly explanation + hints.
+
+include_examples (optional, default true): if true, the response may include example requests.
+
+Typical response
+
+{
+  "ok": true,
+  "event": "support_answer",
+  "data": {
+    "answer": "...",
+    "topic_id": "record-event",
+    "endpoint": "/v1/event",
+    "example_request": { "...": "..." },
+    "example_response_hint": "...",
+    "error_explanation": null,
+    "suggested_next_action": "..."
+  },
+  "meta": { "version": "1.0.0", "source": "titan-core-support-v1", "timestamp": 0 }
+}
+
+AI Marketing (v1)
+
+Titan-Core also exposes a deterministic marketing helper for creating short pieces of copy
+for docs, landing pages and developer outreach. There are no external AI calls – all
+output is template-driven and safe to keep in a public repository.
+
+Endpoint
+
+POST /v1/marketing/generate
+
+Request body
+
+{
+  "use_case": "landing_headline",
+  "audience": "developer",
+  "tone": "technical",
+  "product_name": "Titan-Core",
+  "include_variants": true
+}
+
+
+use_case: one of
+
+"landing_headline"
+
+"feature_blurb"
+
+"dev_portal_intro"
+
+"changelog_snippet"
+
+"email_invite"
+
+audience: one of "developer", "cto", "product".
+
+tone: one of "neutral", "friendly", "technical".
+
+product_name (optional): override the name (defaults to "Titan-Core").
+
+include_variants (bool, default true): if false, variants will be an empty list.
+
+Typical response
+
+{
+  "ok": true,
+  "event": "marketing_copy",
+  "data": {
+    "primary": "Titan-Core: behavioural telemetry for real-time product decisions.",
+    "variants": [
+      "Add behavioural intelligence to your product with Titan-Core.",
+      "Titan-Core helps you see where users slow down, hesitate and drop off."
+    ],
+    "use_case": "landing_headline",
+    "audience": "developer",
+    "tone": "technical",
+    "product_name": "Titan-Core"
+  },
+  "meta": { "version": "1.0.0", "source": "titan-core-marketing-v1", "timestamp": 0 }
+}
+
+
+Paste → save.
+
+---
+
+## Step 2 — Commit & push
+
+Back in VS Code:
+
+1. Go to **Source Control** (left bar).  
+2. You should see changed files (`README.md`, maybe the new routes already staged earlier).  
+3. Commit message:
+
+```text
+feat: add support and marketing helpers

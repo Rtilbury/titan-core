@@ -7,6 +7,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 # Import ONLY the Titan Core v1 router
 from routes.core_v1 import router as core_v1_router
+from routes.support_v1 import router as support_v1_router
+from routes.marketing_v1 import router as marketing_v1_router
 
 
 # -----------------------------------------------------
@@ -35,6 +37,8 @@ app.add_middleware(
 # Include ONLY the core v1 router
 # -----------------------------------------------------
 app.include_router(core_v1_router)
+app.include_router(support_v1_router)
+app.include_router(marketing_v1_router)
 
 
 # -----------------------------------------------------
